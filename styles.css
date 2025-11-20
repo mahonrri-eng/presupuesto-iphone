@@ -1,46 +1,25 @@
-/* Dark iPhone style */
-:root{
-  --bg:#0b0f19; --panel:#11182a; --panel2:#121212; --text:#e8ecf1; --muted:#a8b0c0;
-  --violet:#6c63ff; --green:#2ecc71; --orange:#f39c12; --blue:#3498db; --border:#1f2a3d;
+:root {
+  --bg: #0b0e1a;
+  --card: #12172a;
+  --text: #e6e7ee;
+  --muted: #9aa0b4;
+  --accent: #7c5cff;
+  --accent-2: #2ccf86;
+  --orange: #ffaf47;
+  --border: rgba(255,255,255,0.08);
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family: -apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',system-ui,Arial,sans-serif}
-.app-container{max-width:420px;margin:0 auto;padding:16px}
-header h1{margin:0 0 8px;font-size:22px}
-nav{display:flex;gap:8px;margin-bottom:16px}
-nav .tab{flex:1;background:#1a2134;color:var(--text);border:none;padding:10px 12px;border-radius:10px;cursor:pointer}
-nav .tab.active{background:var(--violet)}
-
-.tab-content{display:none}
-.tab-content.active{display:block}
-
-/* Resumen vertical */
-.resumen{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
-.resumen-item{display:flex;justify-content:space-between;align-items:center;padding:10px 8px;border-radius:10px;background:rgba(255,255,255,0.02)}
-.label{font-weight:700;color:var(--text)}
-.value{font-weight:600;color:var(--text)}
-
-/* Panels */
-.panel{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px}
-.panel h2{margin:0 0 10px;font-size:18px}
-
-/* Chart & legends */
-.legend-rows .legend-label{font-weight:700;margin-right:8px}
-.legend-label.ingresos{color:var(--green)}
-.legend-label.gastos{color:var(--orange)}
-.legend-label.restante{color:var(--blue)}
-#budgetChart{margin-top:8px}
-.legend-dots{margin-top:8px;color:var(--muted);font-size:14px;display:flex;gap:12px;align-items:center}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%}
-.dot-ing{background:var(--green)}
-.dot-gas{background:var(--orange)}
-.dot-res{background:var(--blue)}
-
-/* Recomendación */
-.recomendacion{font-size:14px;color:var(--text)}
-.recomendacion strong{display:block;margin-bottom:6px}
-
-/* Inputs & buttons */
-input{width:100%;padding:10px;margin:6px 0;background:#0f1424;border:1px solid var(--border);border-radius:10px;color:var(--text)}
-button{padding:10px 12px;border:none;border-radius:10px;background:var(--violet);color:#fff;cursor:pointer}
-button:hover{filter:brightness(1.1)}
+body { margin:0; background:var(--bg); color:var(--text); font-family:sans-serif; }
+.app { max-width:520px; margin:auto; padding:10px; }
+.tabs { display:flex; gap:8px; }
+.tab { flex:1; padding:10px; border-radius:999px; background:#0f1220; color:var(--text); }
+.tab.active { background:var(--accent); color:#fff; }
+.view { display:none; }
+.view.active { display:block; }
+.card { background:var(--card); border-radius:16px; padding:14px; margin:12px 0; }
+.metric { display:flex; justify-content:space-between; }
+.legend .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.dot-income { background:var(--accent-2); }
+.dot-expense { background:var(--orange); }
+.dot-left { background:var(--accent); }
+.btn { border-radius:999px; padding:10px; }
+.btn.primary { background:var(--accent); color:#fff; }
