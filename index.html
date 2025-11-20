@@ -1,91 +1,111 @@
-<!DOCTYPE html>
-<html lang='es'>
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Presupuesto iPhone</title>
-  <meta name='theme-color' content='#6c63ff'>
-  <link rel='manifest' href='manifest.json'>
-  <link rel='apple-touch-icon' sizes='180x180' href='icons/icon-180.png'>
-  <link rel='stylesheet' href='styles.css'>
-  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Presupuesto — iPhone</title>
+  <meta name="description" content="Calculadora de presupuesto mensual para iPhone con gráfico animado y recomendaciones inteligentes." />
+  manifest.json
+  <meta name="theme-color" content="#0f1220"/>
+  <link rel="stylesheetcdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js</script>
+  app.js</script>
 </head>
 <body>
-  <div class='app-container'>
-    <header>
-      <h1>Presupuesto <span>iPhone</span></h1>
-      <nav>
-        <button class='tab active' data-tab='resumen'>Resumen</button>
-        <button class='tab' data-tab='ingresos'>Ingresos</button>
-        <button class='tab' data-tab='gastos'>Gastos</button>
-        <button class='tab' data-tab='config'>Config</button>
+  <div class="app">
+    <header class="app-header">
+      <div class="title">
+        <h1>Presupuesto</h1>
+        <span class="subtitle">iPhone</span>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Navegación">
+        <button class="tab active" data-tab="resumen" aria-selected="true">Resumen</button>
+        <button class="tab" data-tab="ingresos">Ingresos</button>
+        <button class="tab" data-tab="gastos">Gastos</button>
+        <button class="tab" data-tab="config">Config</button>
       </nav>
     </header>
 
-    <main>
-      <!-- Resumen (vertical) -->
-      <section id='resumen' class='tab-content active'>
-        <div class='resumen'>
-          <div class='resumen-item'>
-            <span class='label'>Total Ingresos</span>
-            <span class='value' id='totalIngresos'>$ 0,00</span>
-          </div>
-          <div class='resumen-item'>
-            <span class='label'>Total Gastos</span>
-            <span class='value' id='totalGastos'>$ 0,00</span>
-          </div>
-          <div class='resumen-item'>
-            <span class='label'>Restante</span>
-            <span class='value' id='dineroRestante'>$ 0,00</span>
-          </div>
+    <!-- RESUMEN -->
+    <section id="resumen" class="view active">
+      <div class="card metrics">
+        <div class="metric"><div class="label">Total Ingresos</div><div id="m-ingresos" class="value">$ 0,00</div></div>
+        <div class="metric"><div class="label">Total Gastos</div><div id="m-gastos" class="value">$ 0,00</div></div>
+        <div class="metric"><div class="label">Restante</div><div id="m-restante" class="value">$ 0,00</div></div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-title">Gráfico</div>
+        <canvas id="bars" height="120"></canvas>
+        <div class="legend">
+          <span class="dot dot-income"></span> Ingresos
+          <span class="dot dot-expense"></span> Gastos
+          <span class="dot dot-left"></span> Restante
         </div>
+      </div>
 
-        <div class='panel grafico'>
-          <h2>Gráfico</h2>
-          <div class='legend-rows'>
-            <div class='legend-row'><span class='legend-label ingresos'>Ingresos</span></div>
-            <div class='legend-row'><span class='legend-label gastos'>Gastos</span></div>
-            <div class='legend-row'><span class='legend-label restante'>Restante</span></div>
+      <div class="card recommendation">
+        <div class="card-title">Recomendación</div>
+        <div id="reco-text" class="reco-text">Agrega ingresos y gastos para recibir recomendaciones.</div>
+        <small class="disclaimer">Información educativa. No constituye asesoramiento financiero.</small>
+      </div>
+    </section>
+
+    <!-- INGRESOS -->
+    <section id="ingresos" class="view">
+      <div class="card form-card">
+        <div class="card-title">Agregar ingreso</div>
+        <form id="form-ingreso" class="form-grid">
+          <label>Concepto<input type="text" id="ing-concepto" required /></label>
+          <label>Monto<input type="number" id="ing-monto" step="0.01" required /></label>
+          <button type="submit" class="btn primary">Añadir</button>
+        </form>
+      </div>
+      <div class="card list-card">
+        <div class="card-title">Lista de ingresos</div>
+        <ul id="list-ingresos" class="item-list"></ul>
+      </div>
+    </section>
+
+    <!-- GASTOS -->
+    <section id="gastos" class="view">
+      <div class="card form-card">
+        <div class="card-title">Agregar gasto</div>
+        <form id="form-gasto" class="form-grid">
+          <label>Concepto<input type="text" id="gas-concepto" required /></label>
+          <label>Monto<input type="number" id="gas-monto" step="0.01" required /></label>
+          <button type="submit" class="btn primary">Añadir</button>
+        </form>
+      </div>
+      <div class="card list-card">
+        <div class="card-title">Lista de gastos</div>
+        <ul id="list-gastos" class="item-list"></ul>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section id="config" class="view">
+      <div class="card config-card">
+        <div class="card-title">Configuración</div>
+        <form id="form-config" class="form-grid">
+          <label>Moneda
+            <select id="cfg-currency">
+              <option value="ARS">ARS — Peso argentino</option>
+              <option value="USD">USD — Dólar estadounidense</option>
+              <option value="EUR">EUR — Euro</option>
+            </select>
+          </label>
+          <label>Umbral "al límite" (%)<input type="number" id="cfg-limit" /></label>
+          <label>Umbral "pequeño margen" (%)<input type="number" id="cfg-margin" /></label>
+          <label>Objetivo de ahorro<input type="number" id="cfg-goal" /></label>
+          <div class="actions">
+            <button type="submit" class="btn primary">Guardar</button>
+            <button type="button" id="btn-reset" class="btn ghost">Restablecer</button>
           </div>
-          <canvas id='budgetChart'></canvas>
-          <div class='legend-dots'>
-            <span class='dot dot-ing'></span> Ingresos
-            <span class='dot dot-gas'></span> Gastos
-            <span class='dot dot-res'></span> Restante
-          </div>
-        </div>
+        </form>
+      </div>
+    </section>
 
-        <div class='panel recomendacion' id='recomendacion'>
-          Registra al menos un ingreso para comenzar.
-        </div>
-      </section>
-
-      <!-- Ingresos -->
-      <section id='ingresos' class='tab-content'>
-        <h2>Agregar Ingreso</h2>
-        <input type='text' id='conceptoIngreso' placeholder='Concepto'>
-        <input type='number' id='montoIngreso' placeholder='Monto'>
-        <button onclick='agregarIngreso()'>Agregar</button>
-        <ul id='listaIngresos'></ul>
-      </section>
-
-      <!-- Gastos -->
-      <section id='gastos' class='tab-content'>
-        <h2>Agregar Gasto</h2>
-        <input type='text' id='conceptoGasto' placeholder='Concepto'>
-        <input type='number' id='montoGasto' placeholder='Monto'>
-        <button onclick='agregarGasto()'>Agregar</button>
-        <ul id='listaGastos'></ul>
-      </section>
-
-      <!-- Config -->
-      <section id='config' class='tab-content'>
-        <h2>Configuración</h2>
-        <p>Próximamente...</p>
-      </section>
-    </main>
+    <footer class="app-footer"><small>Hecho para GitHub Pages • Modo oscuro • Optimizado para iPhone</small></footer>
   </div>
-
-  <script src='script.js'></script>
 </body>
 </html>
