@@ -49,6 +49,7 @@ function actualizarGrafico(ing, gas, rest) {
             },
             options: {
                 responsive: true,
+                indexAxis: 'y',
                 animation: {
                     duration: 1000
                 }
@@ -65,9 +66,9 @@ function actualizarRecomendacion(totalIngresos, restante) {
     if (totalIngresos === 0) {
         recomendacion.textContent = 'Registra al menos un ingreso para comenzar.';
     } else if (restante < totalIngresos * 0.1) {
-        recomendacion.textContent = 'Estás al límite, revisa tus gastos.';
+        recomendacion.innerHTML = '⚠️ Estás al límite, revisa tus gastos.';
     } else if (restante > totalIngresos * 0.2) {
-        recomendacion.textContent = '¡Estás ahorrando! Considera invertir en un plazo fijo o fondos comunes.';
+        recomendacion.innerHTML = '🎉 ¡Vas ahorrando de forma saludable!<br>Evalúa diversificar en índices amplios y bonos de corto plazo.<br><br><strong>Si estás ahorrando, podrías:</strong><ul><li>Fondo de emergencia primero (3–6 meses).</li><li>Instrumentos líquidos de bajo riesgo (p.ej., fondos money market).</li><li>Bonos gubernamentales corto/mediano plazo.</li></ul>';
     } else {
         recomendacion.textContent = 'Buen equilibrio, sigue así.';
     }

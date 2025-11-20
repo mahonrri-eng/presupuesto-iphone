@@ -75,6 +75,9 @@ nav .tab.active {
 
 .grafico {
     margin-top: 20px;
+    background: #121212;
+    padding: 16px;
+    border-radius: 8px;
 }
 
 .recomendacion {

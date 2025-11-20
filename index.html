@@ -1,77 +1,78 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang='es'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Presupuesto iPhone</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel='stylesheet' href='styles.css'>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
 </head>
 <body>
-    <div class="app-container">
+    <div class='app-container'>
         <header>
             <h1>Presupuesto <span>iPhone</span></h1>
             <nav>
-                <button class="tab active" data-tab="resumen">Resumen</button>
-                <button class="tab" data-tab="ingresos">Ingresos</button>
-                <button class="tab" data-tab="gastos">Gastos</button>
-                <button class="tab" data-tab="config">Config</button>
+                <button class='tab active' data-tab='resumen'>Resumen</button>
+                <button class='tab' data-tab='ingresos'>Ingresos</button>
+                <button class='tab' data-tab='gastos'>Gastos</button>
+                <button class='tab' data-tab='config'>Config</button>
             </nav>
         </header>
 
         <main>
             <!-- Resumen -->
-            <section id="resumen" class="tab-content active">
-                <div class="resumen">
-                    <div class="resumen-item">
-                        <span class="label">Total Ingresos</span>
-                        <span class="value" id="totalIngresos">$ 0,00</span>
+            <section id='resumen' class='tab-content active'>
+                <div class='resumen'>
+                    <div class='resumen-item'>
+                        <span class='label'>Total Ingresos</span>
+                        <span class='value' id='totalIngresos'>$ 0,00</span>
                     </div>
-                    <div class="resumen-item">
-                        <span class="label">Total Gastos</span>
-                        <span class="value" id="totalGastos">$ 0,00</span>
+                    <div class='resumen-item'>
+                        <span class='label'>Total Gastos</span>
+                        <span class='value' id='totalGastos'>$ 0,00</span>
                     </div>
-                    <div class="resumen-item">
-                        <span class="label">Restante</span>
-                        <span class="value" id="dineroRestante">$ 0,00</span>
+                    <div class='resumen-item'>
+                        <span class='label'>Restante</span>
+                        <span class='value' id='dineroRestante'>$ 0,00</span>
                     </div>
                 </div>
 
-                <div class="grafico">
-                    <canvas id="budgetChart"></canvas>
+                <div class='grafico'>
+                    <h2>Gráfico</h2>
+                    <canvas id='budgetChart'></canvas>
                 </div>
 
-                <div class="recomendacion" id="recomendacion">
+                <div class='recomendacion' id='recomendacion'>
                     Registra al menos un ingreso para comenzar.
                 </div>
             </section>
 
             <!-- Ingresos -->
-            <section id="ingresos" class="tab-content">
+            <section id='ingresos' class='tab-content'>
                 <h2>Agregar Ingreso</h2>
-                <input type="text" id="conceptoIngreso" placeholder="Concepto">
-                <input type="number" id="montoIngreso" placeholder="Monto">
-                <button onclick="agregarIngreso()">Agregar</button>
-                <ul id="listaIngresos"></ul>
+                <input type='text' id='conceptoIngreso' placeholder='Concepto'>
+                <input type='number' id='montoIngreso' placeholder='Monto'>
+                <button onclick='agregarIngreso()'>Agregar</button>
+                <ul id='listaIngresos'></ul>
             </section>
 
             <!-- Gastos -->
-            <section id="gastos" class="tab-content">
+            <section id='gastos' class='tab-content'>
                 <h2>Agregar Gasto</h2>
-                <input type="text" id="conceptoGasto" placeholder="Concepto">
-                <input type="number" id="montoGasto" placeholder="Monto">
-                <button onclick="agregarGasto()">Agregar</button>
-                <ul id="listaGastos"></ul>
+                <input type='text' id='conceptoGasto' placeholder='Concepto'>
+                <input type='number' id='montoGasto' placeholder='Monto'>
+                <button onclick='agregarGasto()'>Agregar</button>
+                <ul id='listaGastos'></ul>
             </section>
 
             <!-- Config -->
-            <section id="config" class="tab-content">
+            <section id='config' class='tab-content'>
                 <h2>Configuración</h2>
                 <p>Próximamente...</p>
             </section>
         </main>
     </div>
 
-    <script src="script.js"></script>
+    <script src='script.js'></script>
 </body>
 </html>
