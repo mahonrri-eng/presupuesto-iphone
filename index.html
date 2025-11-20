@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>Presupuesto iPhone</title>
+  <!-- iOS/PWA meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="phone-frame ios-safe">
+    <header class="topbar">
+      <div class="topbar-title">Presupuesto</div>
+      <div class="topbar-sub">iPhone</div>
+    </header>
+
+    <main class="screen" role="main">
+      <!-- Tabs superiores -->
+      <nav class="tabs" aria-label="Secciones">
+        <button class="tab-btn active" data-tab="resumen" id="tabResumen">Resumen</button>
+        <button class="tab-btn" data-tab="ingresos" id="tabIngresos">Ingresos</button>
+        <button class="tab-btn" data-tab="gastos" id="tabGastos">Gastos</button>
+        <button class="tab-btn" data-tab="config" id="tabConfig">Config</button>
+      </nav>
+
+      <!-- RESUMEN (solo lectura) -->
+      <section class="view active" id="viewResumen" aria-labelledby="tabResumen">
+        <div class="card-block">
+          <h2>Resumen</h2>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span>Total de ingresos</span>
+              <strong id="totalIngresos">$0</strong>
+            </div>
+            <div class="summary-item">
+              <span>Total de gastos</span>
+              <strong id="resumenGastos">$0</strong>
+            </div>
+            <div class="summary-item remaining">
+              <span>Dinero restante</span>
+              <strong id="restante">$0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-block">
+          <h2>Gráfico</h2>
+          <div class="chart">
+            <div class="bar-row">
+              <span class="bar-label">Ingresos</span>
+              <div class="bar-track">
+                <div class="bar income" id="barIngresos"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Gastos</span>
+              <div class="bar-track">
+                <div class="bar expense" id="barGastos"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Restante</span>
+              <div class="bar-track">
+                <div class="bar remaining" id="barRestante"></div>
+              </div>
+            </div>
+          </div>
+          <div class="legend">
+            <span class="dot income"></span> Ingresos
+            <span class="dot expense"></span> Gastos
+            <span class="dot remaining"></span> Restante
+          </div>
+        </div>
+
+        <div class="card-block">
+          <h2>Recomendación</h2>
+          <div id="recomendacion" class="reco-box" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- INGRESOS -->
+      <section class="view" id="viewIngresos" aria-labelledby="tabIngresos">
+        <div class="card-block">
+          <h2>Registrar ingreso</h2>
+          <div class="field">
+            <label for="conceptoIngreso">Concepto</label>
+            <input type="text" id="conceptoIngreso" placeholder="Ej.: Sueldo, Freelance" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="montoIngreso">Monto</label>
+            <div class="input-with-prefix">
+              <span class="prefix" id="prefixIngreso">$</span>
+              <input type="text" id="montoIngreso" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" />
+            </div>
+          </div>
+          <div class="actions">
+            <button id="agregarIngreso" class="btn primary">Agregar ingreso</button>
+            <button id="limpiarIngresos" class="btn ghost">Limpiar ingresos</button>
+          </div>
+        </div>
+
+        <div class="card-block">
+          <div class="list-header">
+            <h2>Ingresos</h2>
+            <input type="text" id="buscarIngreso" class="search" placeholder="Buscar concepto…" />
+          </div>
+          <div class="list">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th class="num">Monto</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="listaIngresos"></tbody>
+              <tfoot>
+                <tr>
+                  <td class="label">Total ingresos</td>
+                  <td class="num" id="totalIngresosTabla">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- GASTOS -->
+      <section class="view" id="viewGastos" aria-labelledby="tabGastos">
+        <div class="card-block">
+          <h2>Registrar gasto</h2>
+          <div class="field">
+            <label for="concepto">Concepto</label>
+            <input type="text" id="concepto" placeholder="Ej.: Alquiler, Comida" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="cantidad">Monto</label>
+            <div class="input-with-prefix">
+              <span class="prefix" id="prefixGasto">$</span>
+              <input type="text" id="cantidad" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" />
+            </div>
+          </div>
+          <div class="actions">
+            <button id="agregarGasto" class="btn primary">Agregar gasto</button>
+            <button id="limpiarGastos" class="btn ghost">Limpiar gastos</button>
+          </div>
+        </div>
+
+        <div class="card-block">
+          <div class="list-header">
+            <h2>Gastos</h2>
+            <input type="text" id="buscar" class="search" placeholder="Buscar concepto…" />
+          </div>
+          <div class="list">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th class="num">Monto</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="listaGastos"></tbody>
+              <tfoot>
+                <tr>
+                  <td class="label">Total gastos</td>
+                  <td class="num" id="totalGastos">$0</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONFIG -->
+      <section class="view" id="viewConfig" aria-labelledby="tabConfig">
+        <div class="card-block">
+          <h2>Configuración</h2>
+          <div class="field">
+            <label for="moneda">Moneda</label>
+            <select id="moneda">
+              <option value="ARS">ARS — Peso argentino</option>
+              <option value="USD">USD — Dólar estadounidense</option>
+              <option value="EUR">EUR — Euro</option>
+              <option value="BRL">BRL — Real brasileño</option>
+              <option value="CLP">CLP — Peso chileno</option>
+              <option value="GBP">GBP — Libra esterlina</option>
+            </select>
+            <div class="hint">La moneda es solo para formato (no convierte importes).</div>
+          </div>
+          <div class="field">
+            <label for="umbralLimite">Umbral “al límite” (%)</label>
+            <input type="number" id="umbralLimite" min="1" max="50" step="1" placeholder="5" inputmode="numeric" />
+          </div>
+          <div class="field">
+            <label for="umbralPequeno">Umbral “pequeño margen” (%)</label>
+            <input type="number" id="umbralPequeno" min="5" max="50" step="1" placeholder="15" inputmode="numeric" />
+          </div>
+          <div class="field">
+            <label for="objetivoAhorro">Objetivo de ahorro mensual</label>
+            <div class="input-with-prefix">
+              <span class="prefix" id="prefixObjetivo">$</span>
+              <input type="text" id="objetivoAhorro" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" />
+            </div>
+          </div>
+          <div class="actions">
+            <button id="guardarConfig" class="btn primary">Guardar</button>
+            <button id="resetConfig" class="btn ghost">Restablecer</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>
