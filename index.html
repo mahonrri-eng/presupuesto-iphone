@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -5,9 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>Presupuesto — iPhone</title>
   <meta name="description" content="Calculadora de presupuesto mensual para iPhone con gráfico animado y recomendaciones inteligentes." />
+  <meta name="theme-color" content="#0f1220" />
+
+  <!-- Manifest y estilos -->
   manifest.json
-  <meta name="theme-color" content="#0f1220"/>
-  <link rel="stylesheetcdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js</script>
+  styles.css
+
+  <!-- iOS PWA -->
+  icons/icon-192.png
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Presupuesto">
+
+  <!-- Splash screens -->
+  <link rel="apple-touch-startup-image" href="splash/splash-640x1136.png"
+       /splash-750x1334.png"
+        media="(device-width: 375px) and (device-height: 667px) and (-webkitces
   app.js</script>
 </head>
 <body>
@@ -17,8 +31,8 @@
         <h1>Presupuesto</h1>
         <span class="subtitle">iPhone</span>
       </div>
-      <nav class="tabs" role="tablist" aria-label="Navegación">
-        <button class="tab active" data-tab="resumen" aria-selected="true">Resumen</button>
+      <nav class="tabs">
+        <button class="tab active" data-tab="resumen">Resumen</button>
         <button class="tab" data-tab="ingresos">Ingresos</button>
         <button class="tab" data-tab="gastos">Gastos</button>
         <button class="tab" data-tab="config">Config</button>
@@ -28,13 +42,11 @@
     <!-- RESUMEN -->
     <section id="resumen" class="view active">
       <div class="card metrics">
-        <div class="metric"><div class="label">Total Ingresos</div><div id="m-ingresos" class="value">$ 0,00</div></div>
-        <div class="metric"><div class="label">Total Gastos</div><div id="m-gastos" class="value">$ 0,00</div></div>
-        <div class="metric"><div class="label">Restante</div><div id="m-restante" class="value">$ 0,00</div></div>
+        <div class="metric"><span>Total Ingresos</span><span id="m-ingresos">$ 0,00</span></div>
+        <div class="metric"><span>Total Gastos</span><span id="m-gastos">$ 0,00</span></div>
+        <div class="metric"><span>Restante</span><span id="m-restante">$ 0,00</span></div>
       </div>
-
       <div class="card chart-card">
-        <div class="card-title">Gráfico</div>
         <canvas id="bars" height="120"></canvas>
         <div class="legend">
           <span class="dot dot-income"></span> Ingresos
@@ -42,70 +54,43 @@
           <span class="dot dot-left"></span> Restante
         </div>
       </div>
-
       <div class="card recommendation">
         <div class="card-title">Recomendación</div>
-        <div id="reco-text" class="reco-text">Agrega ingresos y gastos para recibir recomendaciones.</div>
-        <small class="disclaimer">Información educativa. No constituye asesoramiento financiero.</small>
+        <div id="reco-text">Agrega ingresos y gastos para recibir recomendaciones.</div>
       </div>
     </section>
 
     <!-- INGRESOS -->
     <section id="ingresos" class="view">
       <div class="card form-card">
-        <div class="card-title">Agregar ingreso</div>
         <form id="form-ingreso" class="form-grid">
-          <label>Concepto<input type="text" id="ing-concepto" required /></label>
-          <label>Monto<input type="number" id="ing-monto" step="0.01" required /></label>
+          <label>Concepto<input type="text" id="ing-concepto" required></label>
+          <label>Monto<input type="number" id="ing-monto" step="0.01" required></label>
           <button type="submit" class="btn primary">Añadir</button>
         </form>
       </div>
       <div class="card list-card">
-        <div class="card-title">Lista de ingresos</div>
-        <ul id="list-ingresos" class="item-list"></ul>
+        <ul id="list-ingresos"></ul>
       </div>
     </section>
 
     <!-- GASTOS -->
     <section id="gastos" class="view">
       <div class="card form-card">
-        <div class="card-title">Agregar gasto</div>
         <form id="form-gasto" class="form-grid">
-          <label>Concepto<input type="text" id="gas-concepto" required /></label>
-          <label>Monto<input type="number" id="gas-monto" step="0.01" required /></label>
+          <label>Concepto<input type="text" id="gas-concepto" required></label>
+          <label>Monto<input type="number" id="gas-monto" step="0.01" required></label>
           <button type="submit" class="btn primary">Añadir</button>
         </form>
       </div>
       <div class="card list-card">
-        <div class="card-title">Lista de gastos</div>
-        <ul id="list-gastos" class="item-list"></ul>
+        <ul id="list-gastos"></ul>
       </div>
     </section>
 
     <!-- CONFIG -->
     <section id="config" class="view">
       <div class="card config-card">
-        <div class="card-title">Configuración</div>
         <form id="form-config" class="form-grid">
-          <label>Moneda
-            <select id="cfg-currency">
-              <option value="ARS">ARS — Peso argentino</option>
-              <option value="USD">USD — Dólar estadounidense</option>
-              <option value="EUR">EUR — Euro</option>
-            </select>
-          </label>
-          <label>Umbral "al límite" (%)<input type="number" id="cfg-limit" /></label>
-          <label>Umbral "pequeño margen" (%)<input type="number" id="cfg-margin" /></label>
-          <label>Objetivo de ahorro<input type="number" id="cfg-goal" /></label>
-          <div class="actions">
-            <button type="submit" class="btn primary">Guardar</button>
-            <button type="button" id="btn-reset" class="btn ghost">Restablecer</button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <footer class="app-footer"><small>Hecho para GitHub Pages • Modo oscuro • Optimizado para iPhone</small></footer>
-  </div>
-</body>
-</html>
+          <label>Moneda<select id="cfg-currency">
+            <option value="ARS">ARS</option>
